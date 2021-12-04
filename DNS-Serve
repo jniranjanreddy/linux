@@ -1,0 +1,195 @@
+how to configure subdomain.
+
+yum install bind* caching-name* -y
+
+[root@tower-git named]# pwd
+/var/named
+
+
+#======================================================
+[root@tower-git named]# cat sub_named.forward
+$TTL 1D
+@       IN SOA tower-git.nirulabs.com.  root.nirucloud.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      tower-git.nirucloud.com.
+        A       192.168.9.104
+tower-git.nirucloud.com.      IN     A     192.168.9.104
+*                            IN     A     192.168.9.26
+#========================================================
+[root@tower-git named]# cat /etc/named.conf
+//
+// named.conf
+//
+// Provided by Red Hat bind package to configure the ISC BIND named(8) DNS
+// server as a caching only nameserver (as a localhost DNS resolver only).
+//
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+options {
+        listen-on port 53 { 127.0.0.1; 192.168.9.104; };
+        listen-on-v6 port 53 { ::1; };
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        allow-query     { localhost; 192.168.9.0/24; };
+        /*
+         - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
+         - If you are building a RECURSIVE (caching) DNS server, you need to enable
+           recursion.
+         - If your recursive DNS server has a public IP address, you MUST enable access
+           control to limit queries to your legitimate users. Failing to do so will
+           cause your server to become part of large scale DNS amplification
+           attacks. Implementing BCP38 within your network would greatly
+           reduce such attack surface
+        */
+        recursion yes;
+
+        dnssec-enable yes;
+        dnssec-validation yes;
+
+        /* Path to ISC DLV key */
+        bindkeys-file "/etc/named.iscdlv.key";
+
+        managed-keys-directory "/var/named/dynamic";
+
+        pid-file "/run/named/named.pid";
+        session-keyfile "/run/named/session.key";
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+zone "." IN {
+        type hint;
+        file "named.ca";
+};
+
+zone "cloudapps.nirucloud.com" IN {
+        type master;
+        file "sub_named.forward";
+        allow-update { none; };
+};
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+======================================
+[root@tower-git named]# cat named.forward
+$TTL 1D
+@       IN SOA tower-git.nirucloud.com.  root.nirucloud.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      tower-git.nirucloud.com.
+        A       192.168.9.104
+tower-git.nirucloud.com.      IN     A     192.168.9.104
+ldap-server1.nirucloud.com.   IN     A     192.168.9.21
+server3.nirucloud.com.      IN     A     192.168.9.12
+server1.nirucloud.com.      IN     A     192.168.9.10
+server2.nirucloud.com.      IN     A     192.168.9.11
+k8s-master.nirucloud.com.     IN   A     192.168.9.13
+worker-node1.nirucloud.com.   IN     A     192.168.9.14
+worker-node2.nirucloud.com.   IN     A     192.168.9.15
+ocp-server1.nirucloud.com.     IN     A     192.168.9.23
+;console.nirucloud.com.     IN     A     192.168.9.25
+;ocp-server2.nirucloud.com.     IN     CNAME  console
+ocp-server3.nirucloud.com.     IN     A  192.168.9.25
+console.nirucloud.com.         IN     CNAME ocp-server3
+app.nirucloud.com.             IN     CNAME ocp-server3
+openstack01.nirucloud.com.     IN     A  192.168.9.90
+okd-server01.nirucloud.com.     IN     A  192.168.9.26
+ocp01.nirucloud.com.            IN     A  192.168.9.101
+ocp02.nirucloud.com.            IN     A  192.168.9.102
+ocp03.nirucloud.com.            IN     A  192.168.9.103
+[root@tower-git named]#
+============================================================
+[root@tower-git named]# cat named.reverse
+$TTL 3H
+@       IN SOA  tower-git.nirucloud.com          root.nirucloud.com (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      tower-git.nirucloud.com.
+
+
+104      IN      PTR     tower-git.nirucloud.com.
+21      IN      PTR     ldap-server1.nirucloud.com.
+12      IN      PTR     server3.nirucloud.com.
+10      IN      PTR     server1.nirucloud.com.
+11      IN      PTR     server2.nirucloud.com.
+13      IN      PTR     k8s-master.nirucloud.com.
+14      IN      PTR     worker-node1.nirucloud.com.
+15      IN      PTR     worker-node2.nirucloud.com.
+25      IN      PTR     ocp-server3.nirucloud.com.
+90      IN      PTR     openstack01.nirucloud.com.
+26      IN      PTR     okd-server01.nirucloud.com.
+101     IN      PTR     ocp01.nirucloud.com.
+102     IN      PTR     ocp02.nirucloud.com.
+103     IN      PTR     ocp03.nirucloud.com.
+#================================================================
+[root@tower-git named]# cat /etc/named.rfc1912.zones
+// named.rfc1912.zones:
+//
+// Provided by Red Hat caching-nameserver package
+//
+// ISC BIND named zone configuration for zones recommended by
+// RFC 1912 section 4.1 : localhost TLDs and address zones
+// and http://www.ietf.org/internet-drafts/draft-ietf-dnsop-default-local-zones-02.txt
+// (c)10407 R W Franks
+//
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+zone "localhost.localdomain" IN {
+        type master;
+        file "named.localhost";
+        allow-update { none; };
+};
+
+zone "localhost" IN {
+        type master;
+        file "named.localhost";
+        allow-update { none; };
+};
+
+zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" IN {
+        type master;
+        file "named.loopback";
+        allow-update { none; };
+};
+
+zone "1.0.0.127.in-addr.arpa" IN {
+        type master;
+        file "named.loopback";
+        allow-update { none; };
+};
+
+zone "0.in-addr.arpa" IN {
+        type master;
+        file "named.empty";
+        allow-update { none; };
+};
+
+zone "nirucloud.com" IN {
+        type master;
+        file "named.forward";
+        allow-update { none; };
+};
+zone "9.168.192.in-addr.arpa" IN {
+        type master;
+        file "named.reverse";
+        allow-update { none; };
+};
+#================================================================
