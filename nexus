@@ -56,4 +56,6 @@ WantedBy=multi-user.target
 sudo systemctl start nexus
 sudo systemctl enable nexus
 sudo systemctl status nexus
+ufw allow 8081/tcp
+
 tail -f /opt/sonatype-work/nexus3/log/nexus.log
