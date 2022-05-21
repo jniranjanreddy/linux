@@ -1,0 +1,44 @@
+
+Step 1 – Create a npm nexus repo
+Step 2 – Step 2 – Install Node in your server
+Step 3 – Create a Sample Project using NPM
+
+
+$ mkdir npmprj
+$ cd npmprj/
+$ npm init
+$ vi index.js
+$ npm install express --save
+$ npm publish
+
+Step 4 – Create a Nexus ID n Pass which has deploy access to npm repo in nexus.
+# Convert user id and password to encoded token usign base64
+$ echo -n 'myuser:mypassword' | openssl base64
+
+
+Step 5 – Create .npmrc with a REPO Location and Access to upload
+registry = http://15.206.81.210:8081/repository/npm-group-all/
+_auth=ZGVwbG95LXVzZXI6ZGVwbG95LXVzZXIxMjM=
+
+
+Step 6 – Modify package.json file with group repo name to download
+{
+  "name": "devopsschool",
+  "version": "1.0.0",
+  "description": "This is devopsschool npm project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rajesh Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "publishConfig": {
+    "registry": "http://15.206.81.210:8081/repository/npm-hosted-all/"
+  }
+}
+
+Step 7 – Do npm publish
+$ npm publish
