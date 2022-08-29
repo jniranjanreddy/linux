@@ -1,7 +1,8 @@
 ## Source: 
 
 ```
-Veritas Cluster Cheat sheet
+Veritas Cluster Cheat sheet.
+
 VCS uses two components, LLT and GAB to share data over the private networks among systems.
 These components provide the performance and reliability required by VCS.
 LLT
@@ -9,6 +10,7 @@ LLT (Low Latency Transport) provides fast, kernel-to-kernel comms and monitors n
 connections. The system admin configures the LLT by creating a configuration file (llttab)
 that describes the systems in the cluster and private network links among them. The LLT runs
 in layer 2 of the network stack
+
 GAB
 GAB (Group membership and Atomic Broadcast) provides the global message order required to
 maintain a synchronised state among the systems, and monitors disk comms such as that required
