@@ -1,13 +1,14 @@
 ## How to install nexus artifactory.
 
 # Prerequisites
+```
 Open JDK 8
 Minimum CPU’s: 4
 Ubuntu Server with User sudo privileges.
 Set User limits
 Web Browser
 Firewall/Inbound port: 22, 8081
-
+```
 ```
 sudo apt-get update
 sudo apt install openjdk-8-jre-headless
@@ -40,6 +41,9 @@ vi  /opt/nexus/bin/nexus.vmoptions
 -Dkaraf.log=./sonatype-work/nexus3/log
 -Djava.io.tmpdir=./sonatype-work/nexus3/tmp
 ```
+
+## Create Systemd service
+```
 sudo nano /etc/systemd/system/nexus.service
 [Unit]
 Description=nexus service
@@ -56,6 +60,8 @@ WantedBy=multi-user.target
 sudo systemctl start nexus
 sudo systemctl enable nexus
 sudo systemctl status nexus
+```
+```
 ufw allow 8081/tcp
 
 tail -f /opt/sonatype-work/nexus3/log/nexus.log
@@ -63,12 +69,12 @@ tail -f /opt/sonatype-work/nexus3/log/nexus.log
 root@dev-rancher:/tmp# netstat -tulpn | grep -i 8081
 tcp        0      0 0.0.0.0:8081            0.0.0.0:*               LISTEN      35291/java
 root@dev-rancher:/tmp#
-
+```
 
 ## After configuration
 ```
 login to nexus as admin
-goto gear icon --> create repository --> docker-hosted --> under Name registry.jnrlabs.com, select http
+goto gear icon --> create repository --> docker-hosted --> under Name registry.jnrlabs.com, select http 8085
 
 ```
 ![image](https://user-images.githubusercontent.com/83489863/230779317-cecbf474-4278-4926-814a-08293b7af391.png)
