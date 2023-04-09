@@ -60,6 +60,11 @@ ufw allow 8081/tcp
 
 tail -f /opt/sonatype-work/nexus3/log/nexus.log
 
+root@dev-rancher:/tmp# netstat -tulpn | grep -i 8081
+tcp        0      0 0.0.0.0:8081            0.0.0.0:*               LISTEN      35291/java
+root@dev-rancher:/tmp#
+
+
 ## After configuration
 ```
 login to nexus as admin
@@ -88,3 +93,17 @@ https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 Login Succeeded
 
 ```
+## tag and push to nexus repository
+```
+root@dev-rancher:/tmp# docker tag hello-world:latest  registry.jnrlabs.com:8085/hello-world:v1
+
+root@dev-rancher:/tmp# docker push registry.jnrlabs.com:8085/hello-world:v1
+The push refers to repository [registry.jnrlabs.com:8085/hello-world]
+e07ee1baac5f: Pushed
+v1: digest: sha256:f54a58bc1aac5ea1a25d796ae155dc228b3f0e11d046ae276b39c4bf2f13d8c4 size: 525
+
+root@dev-rancher:/tmp#
+
+```
+## Browse the image in nexus repository.
+![image](https://user-images.githubusercontent.com/83489863/230780152-e0c80137-e68d-42d6-92e7-f36ba3dcd4e3.png)
