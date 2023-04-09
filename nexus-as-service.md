@@ -113,3 +113,7 @@ root@dev-rancher:/tmp#
 ```
 ## Browse the image in nexus repository.
 ![image](https://user-images.githubusercontent.com/83489863/230780152-e0c80137-e68d-42d6-92e7-f36ba3dcd4e3.png)
+
+## Api call to list images
+```
+```
