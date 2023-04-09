@@ -59,3 +59,32 @@ sudo systemctl status nexus
 ufw allow 8081/tcp
 
 tail -f /opt/sonatype-work/nexus3/log/nexus.log
+
+## After configuration
+```
+login to nexus as admin
+goto gear icon --> create repository --> docker-hosted --> under Name registry.jnrlabs.com, select http
+
+```
+![image](https://user-images.githubusercontent.com/83489863/230779317-cecbf474-4278-4926-814a-08293b7af391.png)
+
+![image](https://user-images.githubusercontent.com/83489863/230779373-ad341bb3-9ac2-4a6f-8e10-787a118976c7.png)
+![image](https://user-images.githubusercontent.com/83489863/230779422-7f9105bf-4a49-4d08-9661-2050521c3393.png)
+
+```
+root@dev-rancher:/tmp# cat /etc/docker/daemon.json
+{
+  "insecure-registries" : ["registry.jnrlabs.com:8085"]
+}
+
+Restart Docker
+
+root@dev-rancher:/tmp# docker login -u admin registry.jnrlabs.com:8085
+Password:
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+```
