@@ -80,4 +80,55 @@ pip install uwsgi
 def application(env, start_response):
     start_response('200 OK', [('Content-Type','text/html')])
     return [b"Hello World"]
+
+uwsgi --http :8000 --wsgi-file test.py
+apt-get install nginx
+cat /etc/nginx/sites-available/microdomains.conf
+upstream django {
+   server unix:////root/microdomains/microdomains.sock;
+}
+
+server {
+    listen          80;
+    server_name     minikube02.jnrlabs.com;
+    charset utf-8;
+    client_max_body_size 75M;
+
+    # Django /media and Static Files
+    location /media {
+        alias /root/microdomains/media;
+        }
+        location /static {
+        alias /root/microdomains/static;
+        }
+
+    # Send all non-media requests to the Django Server.
+    location / {
+           uwsgi_pass django;
+           include /root/microdomains/uwsgi_params;
+        }
+}
+
+cat uwsgi_params
+uwsgi_param QUERY_STRING    $query_string;
+uwsgi_param REQUEST_METHOD  $request_method;
+uwsgi_param CONTENT_TYPE    $content_type;
+uwsgi_param CONTENT_LENGTH  $content_length;
+uwsgi_param REQUEST_URI     $request_uri;
+uwsgi_param PATH_INFO       $document_uri;
+uwsgi_param DOCUMENT_ROOT   $document_root;
+uwsgi_param SERVER_PROTOCOL $server_protocol;
+uwsgi_param REQUEST_SCHEME  $scheme;
+uwsgi_param HTTPS           $https if_not_empty;
+uwsgi_param REMOTE_ADDR     $remote_addr;
+uwsgi_param REMOTE_PORT     $remote_port;
+uwsgi_param SERVER_PORT     $server_port;
+uwsgi_param SERVER_NAME     $server_name;
+
+(md) root@minikube02:~/microdomains# pwd
+/root/microdomains
+
+(md) root@minikube02:~/microdomains# ln -s /etc/nginx/sites-available/microdomains.conf /etc/nginx/sites-enabled/
+
+
 ```
