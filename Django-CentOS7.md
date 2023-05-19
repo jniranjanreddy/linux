@@ -4,8 +4,11 @@
 ## Source: https://www.digitalocean.com/community/tutorials/how-to-set-up-uwsgi-and-nginx-to-serve-python-apps-on-centos-7
 
 
-
-
+## Dockerize Django
+```
+https://blog.logrocket.com/dockerizing-django-app/
+https://dockerize.io/guides/python-django-guide
+```
 ```
 yum groupinstall "Development Tools"
 sudo yum install python3-devel
