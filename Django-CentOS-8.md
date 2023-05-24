@@ -92,4 +92,19 @@ Operations to perform:
 Running migrations:
   No migrations to apply.
 (django-project-2) [root@chop-rh8-01 second_project]#
+
+(django-connect) [root@chop-rh8-01 first_project]# python manage.py makemigrations django_connect
+Migrations for 'django_connect':
+  django_connect/migrations/0001_initial.py
+    - Create model Topic
+    
+(django-connect) [root@chop-rh8-01 first_project]# python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, django_connect, sessions
+Running migrations:
+  Applying django_connect.0001_initial... OK
+
+
+
+
 ```
