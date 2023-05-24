@@ -12,6 +12,7 @@ https://dockerize.io/guides/python-django-guide
 ```
 yum groupinstall "Development Tools"
 sudo yum install python3-devel
+yum install gcc
 sudo yum install postgresql-libs
 sudo yum install postgresql-devel
 [sudo] pip install psycopg2
