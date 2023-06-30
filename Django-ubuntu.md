@@ -1,4 +1,7 @@
 ## How to run Django web App.
+## if pip fails to psycopg2, then try [ apt-get install python-dev libpq-dev ]
+
+
 ## Prerquisites
 ```
 Nginx
