@@ -1,5 +1,5 @@
 ## How to run Django web App.
-## if pip fails to psycopg2, 
+## if pip fails to install psycopg2, 
 ```
 apt-get install python-dev libpq-dev
 pip install psycopg2
