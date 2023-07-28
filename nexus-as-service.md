@@ -44,7 +44,7 @@ vi  /opt/nexus/bin/nexus.vmoptions
 
 ## Create Systemd service
 ```
-sudo nano /etc/systemd/system/nexus.service
+sudo vi /etc/systemd/system/nexus.service
 [Unit]
 Description=nexus service
 After=network.target
