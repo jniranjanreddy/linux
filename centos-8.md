@@ -35,6 +35,27 @@ make altinstall
 python3.10 -V
 
 ```
+## Systemd for pillala davakana.
+```
+[Unit]
+Description=Start Manakannaction App
+
+[Service]
+Type=forking
+WorkingDirectory=/root/non-docker-1/
+ExecStart=/usr/local/bin/ManaKonnection.sh
+
+[Install]
+WantedBy=multi-user.target
+--------------------------
+ls -ld /usr/local/bin/ManaKonnection.sh
+-rwxr-xr-x. 1 root root 207 Oct 26 15:54 /usr/local/bin/ManaKonnection.sh
+
+cat /usr/local/bin/ManaKonnection.sh
+#!/usr/bin/env bash
+source bin/activate
+nohup python3.10 ManaKonnection/bin/manage.py runserver 10.1.10.109:8000 &
+```
 
 
 
