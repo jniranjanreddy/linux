@@ -2,9 +2,7 @@
 
 ```
 yum update
-
 yum install openssl-devel bzip2-devel libffi-devel
-
 yum groupinstall "Development Tools"
 yum install sqlite-devel
 
