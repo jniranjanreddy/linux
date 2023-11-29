@@ -18,6 +18,8 @@ if it failes with any zlib issues, install yum install zlib-devel.
 then try make altinstall
 ```
 CHAP install
+![image](https://github.com/jniranjanreddy/linux/assets/83489863/33233edc-2259-446c-a968-6915c59ec95b)
+
 ```
 python3.10 -m venv non-docker-1
 source non-docker-1/bin/activate
