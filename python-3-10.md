@@ -22,9 +22,11 @@ CHAP install
 python3.10 -m venv non-docker-1
 source non-docker-1/bin/activate
 pip install -r requirements.txt
-python3 manage.py createsuperuser
 python3.10 bin/manage.py migrate
-python manage.py makemigrations
+python3.10 bin/manage.py makemigrations
+python3.10 bin/manage.py createsuperuser
+
+
 
 python3.10 bin/manage.py runserver
 ```
