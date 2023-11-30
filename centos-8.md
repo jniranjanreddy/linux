@@ -37,6 +37,7 @@ python3.10 -V
 ```
 ## Systemd for pillala davakana.
 ```
+cat /lib/systemd/system/manaKonnect.service
 [Unit]
 Description=Start Manakannaction App
 
