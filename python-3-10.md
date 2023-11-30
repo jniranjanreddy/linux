@@ -25,8 +25,28 @@ pip install -r requirements.txt
 python3.10 bin/manage.py migrate
 python3.10 bin/manage.py makemigrations
 python3.10 bin/manage.py createsuperuser
+python3.10 bin/manage.py runserver or python3.10 bin/manage.py runserver 0.0.0.0:8000
 
+```
+## Service
+```
+cat /lib/systemd/system/manaKonnect.service
+[Unit]
+Description=Start Manakannaction App
 
+[Service]
+Type=forking
+WorkingDirectory=/root/non-docker-1/
+ExecStart=/usr/local/bin/ManaKonnection.sh
 
-python3.10 bin/manage.py runserver
+[Install]
+WantedBy=multi-user.target
+--------------------------
+ls -ld /usr/local/bin/ManaKonnection.sh
+-rwxr-xr-x. 1 root root 207 Oct 26 15:54 /usr/local/bin/ManaKonnection.sh
+
+cat /usr/local/bin/ManaKonnection.sh
+#!/usr/bin/env bash
+source bin/activate
+nohup python3.10 ManaKonnection/bin/manage.py runserver 10.1.10.109:8000 &
 ```
