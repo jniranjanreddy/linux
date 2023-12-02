@@ -1,5 +1,6 @@
 ## https://www.youtube.com/watch?v=DzXCHAuHf0I
 ```
+(demo) root@genchop7 /# cd /srv
 (demo) root@genchop7 /srv # mkdir www
 (demo) root@genchop7 /srv # cd www/
 (demo) root@genchop7 /srv/www # django-admin startproject ytdemo
@@ -20,7 +21,7 @@ mkdir /etc/uwsgi
 mkdir /etc/uwsgi/log
 mkdir /etc/uwsgi/vassals
 cat /etc/uwsgi/vassals/demo.ini
-
+chmod 775 -R /etc/uwsgi/*
 
 cat /etc/uwsgi/emperor.ini
 [uwsgi]
