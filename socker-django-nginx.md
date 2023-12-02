@@ -4,6 +4,8 @@
 (demo) root@genchop7 /srv # cd www/
 (demo) root@genchop7 /srv/www # django-admin startproject ytdemo
 
+useradd uwsgi
+groupdd uwsgi
 
 mkdir /srv/www/ytdemo/logs/
 touch /srv/www/ytdemo/logs/access.log
