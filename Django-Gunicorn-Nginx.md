@@ -1,6 +1,13 @@
-## Source - https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-centos-7
-## for Postgresql- https://www.tcien.com/install-postgresql-server-12-6-on-rhel-8/
+### Source - https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-centos-7
+### for Postgresql- https://www.tcien.com/install-postgresql-server-12-6-on-rhel-8/
 
+
+## OS part
+```
+sudo yum install epel-release
+sudo yum install python-pip python-devel postgresql-server postgresql-devel postgresql-contrib gcc nginx 
+
+```
 
 ## Postgresql Installation
 ```
@@ -36,14 +43,20 @@ host    all             all             127.0.0.1/32            md5
 host    all             all             ::1/128                 md5
 
 ```
+## createing project.
+## Install python3.10 my requiremnt is 3.10, so installed in 3.10, it may work for some other versions.
+```
+https://github.com/jniranjanreddy/linux/blob/main/python-3-10.md
 
+mkdir ~/myproject
+cd mkdir ~/myproject
+python3.10 -m venv myprojectenv
+source myprojectenv/bin/activate
 
+pip install django gunicorn psycopg2
+django-admin.py startproject myproject .
 
-
-
-
-
-## settimgs.py
+# update settings.py myproject/settings.py
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -55,8 +68,26 @@ DATABASES = {
     }
 }
 
+# append in the bottom of the settings.py
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
+cd ~/myproject
+./manage.py makemigrations
+./manage.py migrate
+
+# Create super user
+./manage.py createsuperuser
+
+# create
+./manage.py collectstatic
+
+./manage.py runserver 0.0.0.0:8000
+
+cd ~/myproject
+gunicorn --bind 0.0.0.0:8000 myproject.wsgi:application
+
+
+```
 
 
 ## gunicorn Systemd file
