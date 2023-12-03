@@ -2,6 +2,40 @@
 ## for Postgresql- https://www.tcien.com/install-postgresql-server-12-6-on-rhel-8/
 
 
+## Postgresql Installation
+```
+yum remove postgres\*
+dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+dnf -qy module disable postgresql
+dnf install postgresql12
+dnf install postgresql12-server
+/usr/pgsql-12/bin/postgresql-12-setup initdb
+systemctl enable postgresql-12
+systemctl start postgresql-12
+
+# Create database
+su - postgres
+psql
+CREATE DATABASE myproject;
+CREATE USER myprojectuser WITH PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+
+\q
+exit
+
+## Update file /var/lib/pgsql/data/pg_hba.conf
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     peer
+# IPv4 local connections:
+#host    all             all             127.0.0.1/32            ident
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+#host    all             all             ::1/128                 ident
+host    all             all             ::1/128                 md5
+
+```
 
 
 
@@ -9,6 +43,19 @@
 
 
 
+## settimgs.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 
 
