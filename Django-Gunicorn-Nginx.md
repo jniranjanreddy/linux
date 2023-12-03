@@ -44,12 +44,12 @@ host    all             all             ::1/128                 md5
 
 ```
 ## createing project.
-## Install python3.10 my requiremnt is 3.10, so installed in 3.10, it may work for some other versions.
+## Install python3.10, my requiremnt is 3.10, so installed in 3.10, it may also work for some other versions.
 ```
 https://github.com/jniranjanreddy/linux/blob/main/python-3-10.md
 
 mkdir ~/myproject
-cd mkdir ~/myproject
+cd ~/myproject
 python3.10 -m venv myprojectenv
 source myprojectenv/bin/activate
 
