@@ -200,3 +200,34 @@ http {
 
 [root@gunicornc8 myproject]#
 ```
+## troubleshooting
+```
+[root@gunicornc8 ~]# ls -ld myproject/
+drwxr-xr-x 5 root root 96 Dec  3 19:24 myproject/
+
+[root@gunicornc8 ~]# ls -ltr myproject/
+total 4
+drwxr-xr-x 5 root root   74 Dec  3 17:26 myprojectenv
+-rwxr-xr-x 1 root root  665 Dec  3 17:36 manage.py
+drwxr-xr-x 3 root root   19 Dec  3 18:16 static
+drwxr-xr-x 3 root root  108 Dec  3 18:17 myproject
+srwxrwxrwx 1 root nginx   0 Dec  3 19:24 myproject.sock
+
+[root@gunicornc8 ~]# ls -ltr myproject/myproject
+total 16
+-rw-r--r-- 1 root root  395 Dec  3 17:36 wsgi.py
+-rw-r--r-- 1 root root  765 Dec  3 17:36 urls.py
+-rw-r--r-- 1 root root    0 Dec  3 17:36 __init__.py
+-rw-r--r-- 1 root root  395 Dec  3 17:36 asgi.py
+-rw-r--r-- 1 root root 3541 Dec  3 18:17 settings.py
+drwxr-xr-x 2 root root  126 Dec  3 18:17 __pycache__
+
+[root@gunicornc8 ~]# ls -ltr myproject/myprojectenv/
+total 8
+-rw-r--r-- 1 root root   76 Dec  3 17:26 pyvenv.cfg
+lrwxrwxrwx 1 root root    3 Dec  3 17:26 lib64 -> lib
+drwxr-xr-x 3 root root   24 Dec  3 17:26 lib
+drwxr-xr-x 2 root root    6 Dec  3 17:26 include
+drwxr-xr-x 2 root root 4096 Dec  3 17:28 bin
+
+```
