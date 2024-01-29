@@ -49,4 +49,11 @@ cat /usr/local/bin/ManaKonnection.sh
 #!/usr/bin/env bash
 source bin/activate
 nohup python3.10 ManaKonnection/bin/manage.py runserver 10.1.10.109:8000 &
+
+
+if any issues like this below, then install pip install psycopg2-binary
+
+pg_config is required to build psycopg2 from source
+pip install psycopg2-binary
+
 ```
